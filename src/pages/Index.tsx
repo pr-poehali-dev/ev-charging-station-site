@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import Icon from '@/components/ui/icon';
+import ChargingStation3D from '@/components/3d/ChargingStation3D';
+import Scene3D from '@/components/3d/Scene3D';
 
 export default function Index() {
   const [activeTab, setActiveTab] = useState('catalog');
@@ -75,12 +77,11 @@ export default function Index() {
       <nav className="fixed top-0 w-full z-50 backdrop-blur-sm bg-black/20 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
-              <Icon name="Zap" size={20} className="text-white" />
-            </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              EcoCharge
-            </span>
+            <img 
+              src="https://cdn.poehali.dev/files/1ae8224d-1bb2-4fc4-aae4-6b98c69b0b69.png" 
+              alt="E-PROM Logo" 
+              className="h-8 opacity-90"
+            />
           </div>
           <div className="hidden md:flex space-x-8">
             <button 
@@ -111,48 +112,38 @@ export default function Index() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10"></div>
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      {/* Hero 3D Scene */}
+      <section className="relative">
+        <Scene3D />
         
-        <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
-          <div className="mb-8">
-            <Badge className="mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-semibold px-4 py-2">
-              Завод будущего
-            </Badge>
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
-            <span className="bg-gradient-to-r from-white via-cyan-200 to-blue-300 bg-clip-text text-transparent">
-              Зарядные станции
-            </span>
-            <br />
-            <span className="text-4xl md:text-6xl text-gray-300">
-              нового поколения
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto">
-            Производим высокотехнологичные зарядные станции для электромобилей 
-            с полной сертификацией и расширенной гарантией до 7 лет
-          </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-semibold px-8 py-6 text-lg hover:scale-105 transition-transform"
-            >
-              <Icon name="ArrowRight" size={20} className="ml-2" />
-              Смотреть каталог
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black px-8 py-6 text-lg transition-all"
-            >
-              <Icon name="Phone" size={20} className="mr-2" />
-              Связаться с нами
-            </Button>
-          </div>
+        {/* Logo overlay */}
+        <div className="absolute top-20 left-1/2 transform -translate-x-1/2 z-50">
+          <img 
+            src="https://cdn.poehali.dev/files/1ae8224d-1bb2-4fc4-aae4-6b98c69b0b69.png" 
+            alt="E-PROM Logo" 
+            className="h-16 md:h-20 opacity-90 filter drop-shadow-2xl"
+          />
+        </div>
+        
+        {/* Action buttons overlay */}
+        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-50 flex flex-col sm:flex-row gap-6">
+          <Button 
+            size="lg" 
+            onClick={() => setActiveTab('catalog')}
+            className="bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-semibold px-8 py-6 text-lg hover:scale-105 transition-transform animate-glow"
+          >
+            <Icon name="ArrowRight" size={20} className="ml-2" />
+            Перейти в каталог
+          </Button>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            onClick={() => setActiveTab('contacts')}
+            className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black px-8 py-6 text-lg transition-all backdrop-blur-sm bg-black/20"
+          >
+            <Icon name="Phone" size={20} className="mr-2" />
+            Связаться с нами
+          </Button>
         </div>
       </section>
 
@@ -174,43 +165,16 @@ export default function Index() {
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {products.map((product) => (
-                <Card key={product.id} className="bg-black/40 backdrop-blur-sm border-white/20 hover:border-cyan-400/50 transition-all hover:scale-105">
-                  <CardHeader>
-                    <img 
-                      src={product.image} 
-                      alt={product.name}
-                      className="w-full h-48 object-cover rounded-lg mb-4"
-                    />
-                    <CardTitle className="text-2xl text-white">{product.name}</CardTitle>
-                    <CardDescription className="text-gray-300">
-                      {product.type} • {product.power}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3 mb-6">
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Разъемы:</span>
-                        <span className="text-white">{product.connectors}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Гарантия:</span>
-                        <Badge variant="outline" className="border-green-500 text-green-400">{product.warranty}</Badge>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Сертификация:</span>
-                        <span className="text-sm text-cyan-400">{product.certification}</span>
-                      </div>
-                    </div>
-                    <Separator className="mb-4" />
-                    <div className="flex justify-between items-center">
-                      <span className="text-2xl font-bold text-cyan-400">{product.price}</span>
-                      <Button variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black">
-                        Подробнее
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+              {products.map((product, index) => (
+                <ChargingStation3D
+                  key={product.id}
+                  name={product.name}
+                  power={product.power}
+                  type={product.type}
+                  price={product.price}
+                  image={product.image}
+                  delay={index * 200}
+                />
               ))}
             </div>
           </TabsContent>
