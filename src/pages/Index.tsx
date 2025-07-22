@@ -5,8 +5,6 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import Icon from '@/components/ui/icon';
-import ChargingStation3D from '@/components/3d/ChargingStation3D';
-import Scene3D from '@/components/3d/Scene3D';
 
 export default function Index() {
   const [activeTab, setActiveTab] = useState('catalog');
@@ -72,39 +70,40 @@ export default function Index() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-sm bg-black/20 border-b border-white/10">
+      <nav className="fixed top-0 w-full z-50 backdrop-blur-sm bg-black/30 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <img 
-              src="https://cdn.poehali.dev/files/1ae8224d-1bb2-4fc4-aae4-6b98c69b0b69.png" 
-              alt="E-PROM Logo" 
-              className="h-8 opacity-90"
-            />
+            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-lg flex items-center justify-center">
+              <Icon name="Zap" size={20} className="text-white" />
+            </div>
+            <span className="text-2xl font-bold text-white">
+              EcoCharge
+            </span>
           </div>
           <div className="hidden md:flex space-x-8">
             <button 
               onClick={() => setActiveTab('catalog')}
-              className="hover:text-cyan-400 transition-colors"
+              className="hover:text-blue-400 transition-colors text-white"
             >
               Каталог
             </button>
             <button 
               onClick={() => setActiveTab('projects')}
-              className="hover:text-cyan-400 transition-colors"
+              className="hover:text-blue-400 transition-colors text-white"
             >
               Проекты
             </button>
             <button 
               onClick={() => setActiveTab('info')}
-              className="hover:text-cyan-400 transition-colors"
+              className="hover:text-blue-400 transition-colors text-white"
             >
               О заводе
             </button>
             <button 
               onClick={() => setActiveTab('contacts')}
-              className="hover:text-cyan-400 transition-colors"
+              className="hover:text-blue-400 transition-colors text-white"
             >
               Контакты
             </button>
@@ -112,69 +111,110 @@ export default function Index() {
         </div>
       </nav>
 
-      {/* Hero 3D Scene */}
-      <section className="relative">
-        <Scene3D />
-        
-        {/* Logo overlay */}
-        <div className="absolute top-20 left-1/2 transform -translate-x-1/2 z-50">
-          <img 
-            src="https://cdn.poehali.dev/files/1ae8224d-1bb2-4fc4-aae4-6b98c69b0b69.png" 
-            alt="E-PROM Logo" 
-            className="h-16 md:h-20 opacity-90 filter drop-shadow-2xl"
-          />
-        </div>
-        
-        {/* Action buttons overlay */}
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-50 flex flex-col sm:flex-row gap-6">
-          <Button 
-            size="lg" 
-            onClick={() => setActiveTab('catalog')}
-            className="bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-semibold px-8 py-6 text-lg hover:scale-105 transition-transform animate-glow"
-          >
-            <Icon name="ArrowRight" size={20} className="ml-2" />
-            Перейти в каталог
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            onClick={() => setActiveTab('contacts')}
-            className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black px-8 py-6 text-lg transition-all backdrop-blur-sm bg-black/20"
-          >
-            <Icon name="Phone" size={20} className="mr-2" />
-            Связаться с нами
-          </Button>
+      {/* Hero Section - ЧИСТЫЙ БЕЗ МЕРЦАЮЩИХ КРУГОВ */}
+      <section className="relative min-h-screen flex items-center justify-center pt-20">        
+        <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
+          <div className="mb-8">
+            <Badge className="mb-6 bg-blue-600 text-white font-semibold px-4 py-2">
+              Завод будущего
+            </Badge>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight text-white">
+            Зарядные станции
+            <br />
+            <span className="text-4xl md:text-6xl text-blue-400">
+              нового поколения
+            </span>
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto">
+            Производим высокотехнологичные зарядные станции для электромобилей 
+            с полной сертификацией и расширенной гарантией до 7 лет
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <Button 
+              size="lg" 
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-6 text-lg"
+              onClick={() => setActiveTab('catalog')}
+            >
+              Смотреть каталог
+              <Icon name="ArrowRight" size={20} className="ml-2" />
+            </Button>
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-8 py-6 text-lg transition-all"
+              onClick={() => setActiveTab('contacts')}
+            >
+              <Icon name="Phone" size={20} className="mr-2" />
+              Связаться с нами
+            </Button>
+          </div>
         </div>
       </section>
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-20">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-12 bg-black/40 backdrop-blur-sm">
-            <TabsTrigger value="catalog" className="text-lg">Каталог</TabsTrigger>
-            <TabsTrigger value="projects" className="text-lg">Проекты</TabsTrigger>
-            <TabsTrigger value="info" className="text-lg">О заводе</TabsTrigger>
-            <TabsTrigger value="contacts" className="text-lg">Контакты</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 mb-12 bg-slate-800 border border-slate-700">
+            <TabsTrigger value="catalog" className="text-lg text-white data-[state=active]:bg-blue-600">Каталог</TabsTrigger>
+            <TabsTrigger value="projects" className="text-lg text-white data-[state=active]:bg-blue-600">Проекты</TabsTrigger>
+            <TabsTrigger value="info" className="text-lg text-white data-[state=active]:bg-blue-600">О заводе</TabsTrigger>
+            <TabsTrigger value="contacts" className="text-lg text-white data-[state=active]:bg-blue-600">Контакты</TabsTrigger>
           </TabsList>
 
-          {/* Catalog Tab */}
+          {/* Catalog Tab - ИСПРАВЛЕННЫЕ КАРТОЧКИ */}
           <TabsContent value="catalog" className="space-y-8">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Продукция</h2>
+              <h2 className="text-4xl font-bold mb-4 text-white">Продукция</h2>
               <p className="text-xl text-gray-300">Полный спектр зарядного оборудования для электротранспорта</p>
             </div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="space-y-12">
               {products.map((product, index) => (
-                <ChargingStation3D
-                  key={product.id}
-                  name={product.name}
-                  power={product.power}
-                  type={product.type}
-                  price={product.price}
-                  image={product.image}
-                  delay={index * 200}
-                />
+                <Card key={product.id} className="bg-slate-800/50 border-slate-700 hover:border-blue-500/50 transition-all">
+                  <div className={`grid md:grid-cols-2 gap-8 p-8 ${index % 2 !== 0 ? 'md:grid-cols-2' : ''}`}>
+                    {/* Изображение */}
+                    <div className={`${index % 2 !== 0 ? 'order-2 md:order-1' : 'order-1'}`}>
+                      <img 
+                        src={product.image} 
+                        alt={product.name}
+                        className="w-full h-80 object-cover rounded-xl"
+                      />
+                    </div>
+                    
+                    {/* Контент */}
+                    <div className={`flex flex-col justify-center ${index % 2 !== 0 ? 'order-1 md:order-2' : 'order-2'}`}>
+                      <CardHeader className="p-0 pb-6">
+                        <CardTitle className="text-3xl text-white mb-2">{product.name}</CardTitle>
+                        <CardDescription className="text-lg text-gray-300">
+                          {product.type} • {product.power}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="p-0">
+                        <div className="space-y-4 mb-8">
+                          <div className="flex justify-between items-center border-b border-slate-700 pb-2">
+                            <span className="text-gray-400 text-lg">Разъемы:</span>
+                            <span className="text-white font-semibold">{product.connectors}</span>
+                          </div>
+                          <div className="flex justify-between items-center border-b border-slate-700 pb-2">
+                            <span className="text-gray-400 text-lg">Гарантия:</span>
+                            <Badge className="bg-green-600 text-white">{product.warranty}</Badge>
+                          </div>
+                          <div className="flex justify-between items-start border-b border-slate-700 pb-2">
+                            <span className="text-gray-400 text-lg">Сертификация:</span>
+                            <span className="text-blue-400 text-right max-w-48">{product.certification}</span>
+                          </div>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-3xl font-bold text-blue-400">{product.price}</span>
+                          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3">
+                            Заказать
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </div>
+                  </div>
+                </Card>
               ))}
             </div>
           </TabsContent>
@@ -182,16 +222,16 @@ export default function Index() {
           {/* Projects Tab */}
           <TabsContent value="projects" className="space-y-8">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Реализованные проекты</h2>
+              <h2 className="text-4xl font-bold mb-4 text-white">Реализованные проекты</h2>
               <p className="text-xl text-gray-300">Более 200 объектов по всей России</p>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {projects.map((project, index) => (
-                <Card key={index} className="bg-black/40 backdrop-blur-sm border-white/20">
+                <Card key={index} className="bg-slate-800/50 border-slate-700">
                   <CardHeader>
                     <CardTitle className="text-xl text-white flex items-center">
-                      <Icon name="MapPin" size={20} className="mr-2 text-cyan-400" />
+                      <Icon name="MapPin" size={20} className="mr-2 text-blue-400" />
                       {project.name}
                     </CardTitle>
                     <CardDescription className="text-gray-300">{project.location}</CardDescription>
@@ -200,7 +240,7 @@ export default function Index() {
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span className="text-gray-400">Станций:</span>
-                        <Badge className="bg-blue-500">{project.stations}</Badge>
+                        <Badge className="bg-blue-600">{project.stations}</Badge>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-400">Мощность:</span>
@@ -208,7 +248,7 @@ export default function Index() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-400">Завершен:</span>
-                        <span className="text-cyan-400">{project.completed}</span>
+                        <span className="text-blue-400">{project.completed}</span>
                       </div>
                     </div>
                   </CardContent>
@@ -220,7 +260,7 @@ export default function Index() {
           {/* Info Tab */}
           <TabsContent value="info" className="space-y-8">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">О заводе EcoCharge</h2>
+              <h2 className="text-4xl font-bold mb-4 text-white">О заводе EcoCharge</h2>
             </div>
 
             <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -232,7 +272,7 @@ export default function Index() {
                 />
               </div>
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold">Лидер в производстве зарядной инфраструктуры</h3>
+                <h3 className="text-2xl font-bold text-white">Лидер в производстве зарядной инфраструктуры</h3>
                 <p className="text-gray-300 text-lg leading-relaxed">
                   Завод EcoCharge — современное высокотехнологичное предприятие, 
                   специализирующееся на разработке и производстве зарядных станций 
@@ -241,25 +281,25 @@ export default function Index() {
                 </p>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-cyan-400">200+</div>
+                    <div className="text-3xl font-bold text-blue-400">200+</div>
                     <div className="text-gray-400">Проектов</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-cyan-400">5000+</div>
+                    <div className="text-3xl font-bold text-blue-400">5000+</div>
                     <div className="text-gray-400">Станций</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <Card className="bg-black/40 backdrop-blur-sm border-white/20 mt-12">
+            <Card className="bg-slate-800/50 border-slate-700 mt-12">
               <CardHeader>
-                <CardTitle className="text-2xl text-center">Гарантия и сертификация</CardTitle>
+                <CardTitle className="text-2xl text-center text-white">Гарантия и сертификация</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-8">
                   <div>
-                    <h4 className="text-xl font-semibold mb-4 text-cyan-400">Гарантийные обязательства</h4>
+                    <h4 className="text-xl font-semibold mb-4 text-blue-400">Гарантийные обязательства</h4>
                     <ul className="space-y-2 text-gray-300">
                       <li>• Расширенная гарантия до 7 лет</li>
                       <li>• Техническая поддержка 24/7</li>
@@ -268,7 +308,7 @@ export default function Index() {
                     </ul>
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold mb-4 text-cyan-400">Сертификация</h4>
+                    <h4 className="text-xl font-semibold mb-4 text-blue-400">Сертификация</h4>
                     <ul className="space-y-2 text-gray-300">
                       <li>• CE (Европейское соответствие)</li>
                       <li>• ISO 9001:2015 (Система качества)</li>
@@ -284,47 +324,47 @@ export default function Index() {
           {/* Contacts Tab */}
           <TabsContent value="contacts" className="space-y-8">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4">Контакты</h2>
+              <h2 className="text-4xl font-bold mb-4 text-white">Контакты</h2>
               <p className="text-xl text-gray-300">Свяжитесь с нами для консультации и расчета стоимости</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
-              <Card className="bg-black/40 backdrop-blur-sm border-white/20">
+              <Card className="bg-slate-800/50 border-slate-700">
                 <CardContent className="pt-6 text-center">
-                  <Icon name="Phone" size={48} className="mx-auto mb-4 text-cyan-400" />
-                  <h3 className="text-xl font-semibold mb-2">Телефон</h3>
+                  <Icon name="Phone" size={48} className="mx-auto mb-4 text-blue-400" />
+                  <h3 className="text-xl font-semibold mb-2 text-white">Телефон</h3>
                   <p className="text-gray-300">+7 (495) 123-45-67</p>
                   <p className="text-gray-300">+7 (800) 555-01-23</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-black/40 backdrop-blur-sm border-white/20">
+              <Card className="bg-slate-800/50 border-slate-700">
                 <CardContent className="pt-6 text-center">
-                  <Icon name="Mail" size={48} className="mx-auto mb-4 text-cyan-400" />
-                  <h3 className="text-xl font-semibold mb-2">Email</h3>
+                  <Icon name="Mail" size={48} className="mx-auto mb-4 text-blue-400" />
+                  <h3 className="text-xl font-semibold mb-2 text-white">Email</h3>
                   <p className="text-gray-300">info@ecocharge.ru</p>
                   <p className="text-gray-300">sales@ecocharge.ru</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-black/40 backdrop-blur-sm border-white/20">
+              <Card className="bg-slate-800/50 border-slate-700">
                 <CardContent className="pt-6 text-center">
-                  <Icon name="MapPin" size={48} className="mx-auto mb-4 text-cyan-400" />
-                  <h3 className="text-xl font-semibold mb-2">Адрес</h3>
+                  <Icon name="MapPin" size={48} className="mx-auto mb-4 text-blue-400" />
+                  <h3 className="text-xl font-semibold mb-2 text-white">Адрес</h3>
                   <p className="text-gray-300">г. Москва, ул. Инновационная, 42</p>
                   <p className="text-gray-300">Технопарк "Будущее"</p>
                 </CardContent>
               </Card>
             </div>
 
-            <Card className="bg-black/40 backdrop-blur-sm border-white/20">
+            <Card className="bg-slate-800/50 border-slate-700">
               <CardHeader>
-                <CardTitle className="text-center">Заявка на консультацию</CardTitle>
+                <CardTitle className="text-center text-white">Заявка на консультацию</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center text-gray-300">
                   <p className="mb-4">Оставьте заявку, и наш менеджер свяжется с вами в течение часа</p>
-                  <Button size="lg" className="bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-semibold">
+                  <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold">
                     <Icon name="Send" size={20} className="mr-2" />
                     Получить консультацию
                   </Button>
@@ -336,7 +376,7 @@ export default function Index() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-black/40 backdrop-blur-sm border-t border-white/10 py-8">
+      <footer className="bg-slate-900 border-t border-slate-800 py-8">
         <div className="max-w-7xl mx-auto px-6 text-center text-gray-400">
           <p>&copy; 2024 EcoCharge. Все права защищены.</p>
           <p className="mt-2">Завод производителя зарядных станций для электромобилей</p>
