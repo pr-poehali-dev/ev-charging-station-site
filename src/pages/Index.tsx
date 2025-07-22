@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import Icon from '@/components/ui/icon';
 
-// АНИМИРОВАННЫЙ СЧЕТЧИК - ЕБАШИТ ЦИФРЫ ВВЕРХ!
+// АНИМИРОВАННЫЙ СЧЕТЧИК
 const AnimatedCounter = ({ end, duration = 2000, suffix = '' }) => {
   const [count, setCount] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
@@ -53,64 +53,8 @@ const AnimatedCounter = ({ end, duration = 2000, suffix = '' }) => {
   );
 };
 
-// ЧАСТИЦЫ В HERO - КОСМИЧЕСКАЯ ХУЙНЯ!
-const ParticleField = () => {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(30)].map((_, i) => (
-        <div
-          key={i}
-          className="absolute w-1 h-1 bg-gradient-to-r from-blue-400 to-cyan-300 rounded-full animate-pulse"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 3}s`,
-            animationDuration: `${2 + Math.random() * 4}s`,
-            boxShadow: `0 0 10px rgba(59, 130, 246, 0.8)`
-          }}
-        />
-      ))}
-      {/* НЕОНОВЫЕ ЛИНИИ */}
-      {[...Array(5)].map((_, i) => (
-        <div
-          key={`line-${i}`}
-          className="absolute h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-30 animate-pulse"
-          style={{
-            width: `${100 + Math.random() * 200}px`,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 2}s`,
-            animationDuration: `${3 + Math.random() * 2}s`
-          }}
-        />
-      ))}
-    </div>
-  );
-};
-
 export default function Index() {
   const [activeTab, setActiveTab] = useState('catalog');
-  const [scrollY, setScrollY] = useState(0);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  // ПАРАЛЛАКС И МЫШЬ ОТСЛЕЖИВАНИЕ
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    const handleMouseMove = (e) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth) * 100,
-        y: (e.clientY / window.innerHeight) * 100
-      });
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
 
   const products = [
     {
@@ -182,234 +126,228 @@ export default function Index() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-x-hidden">
-      {/* Navigation - СТЕКЛЯННЫЙ ЭФФЕКТ */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-gradient-to-r from-black/40 via-slate-900/40 to-black/40 border-b border-white/10">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 backdrop-blur-sm bg-black/40 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 animate-pulse">
+            <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-400 rounded-xl flex items-center justify-center shadow-lg">
               <Icon name="Zap" size={24} className="text-white" />
             </div>
-            <span className="text-3xl font-bold bg-gradient-to-r from-white via-blue-200 to-cyan-300 bg-clip-text text-transparent">
+            <span className="text-3xl font-bold text-white">
               EcoCharge
             </span>
           </div>
           <div className="hidden md:flex space-x-8">
-            {['catalog', 'projects', 'info', 'contacts'].map((tab, index) => (
+            {['catalog', 'projects', 'info', 'contacts'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className="relative px-4 py-2 text-white hover:text-blue-400 transition-all duration-300 group"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="px-4 py-2 text-white hover:text-emerald-400 transition-colors font-medium"
               >
-                <span className="relative z-10">
-                  {tab === 'catalog' ? 'Каталог' : 
-                   tab === 'projects' ? 'Проекты' : 
-                   tab === 'info' ? 'О заводе' : 'Контакты'}
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-400/20 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300" />
+                {tab === 'catalog' ? 'Каталог' : 
+                 tab === 'projects' ? 'Проекты' : 
+                 tab === 'info' ? 'О заводе' : 'Контакты'}
               </button>
             ))}
           </div>
         </div>
       </nav>
 
-      {/* Hero Section - КОСМИЧЕСКАЯ СЕКЦИЯ С ПАРАЛЛАКСОМ */}
-      <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-        {/* ПАРАЛЛАКС ЗАДНИЙ ФОН */}
-        <div 
-          className="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-blue-900/50 to-slate-900/90"
-          style={{
-            transform: `translateY(${scrollY * 0.3}px)`
-          }}
-        />
-        
-        {/* ЧАСТИЦЫ И НЕОНОВЫЕ ЭФФЕКТЫ */}
-        <ParticleField />
-        
-        {/* INTERACTIVE MOUSE GRADIENT */}
-        <div
-          className="absolute inset-0 opacity-20 pointer-events-none"
-          style={{
-            background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(59, 130, 246, 0.3), transparent 40%)`
-          }}
-        />
-        
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center pt-20">
         <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
-          <div className="mb-8 animate-fade-in">
-            <Badge className="mb-6 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-600 text-white font-bold px-6 py-3 text-lg shadow-lg shadow-blue-500/40 animate-pulse border-0">
-              ⚡ Завод будущего ⚡
+          <div className="mb-8">
+            <Badge className="mb-6 bg-emerald-600 text-white font-bold px-6 py-3 text-lg">
+              Завод будущего
             </Badge>
           </div>
           
-          <h1 className="text-6xl md:text-8xl font-black mb-8 leading-tight animate-fade-in">
-            <span className="bg-gradient-to-r from-white via-blue-200 to-cyan-300 bg-clip-text text-transparent drop-shadow-2xl">
+          <h1 className="text-6xl md:text-8xl font-black mb-8 leading-tight">
+            <span className="text-white">
               Зарядные станции
             </span>
             <br />
-            <span className="text-5xl md:text-7xl bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent">
+            <span className="text-5xl md:text-7xl text-emerald-400">
               нового поколения
             </span>
           </h1>
           
-          <p className="text-xl md:text-3xl text-gray-200 mb-12 max-w-5xl mx-auto leading-relaxed animate-fade-in font-medium">
+          <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-5xl mx-auto leading-relaxed">
             Производим высокотехнологичные зарядные станции для электромобилей 
             с полной сертификацией и расширенной гарантией до 7 лет
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-8 justify-center items-center animate-fade-in">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Button 
               size="lg" 
-              className="group bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-700 hover:from-blue-700 hover:via-cyan-400 hover:to-blue-800 text-white font-bold px-10 py-8 text-xl shadow-2xl shadow-blue-500/40 hover:shadow-blue-400/60 transition-all duration-300 hover:scale-110 border-0"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-10 py-6 text-xl"
               onClick={() => setActiveTab('catalog')}
             >
-              🚀 Смотреть каталог
-              <Icon name="ArrowRight" size={24} className="ml-3 group-hover:translate-x-2 transition-transform" />
+              Смотреть каталог
+              <Icon name="ArrowRight" size={24} className="ml-3" />
             </Button>
             <Button 
               variant="outline" 
               size="lg" 
-              className="group border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black px-10 py-8 text-xl transition-all duration-300 hover:scale-110 backdrop-blur-sm bg-white/5 hover:shadow-2xl hover:shadow-cyan-400/40"
+              className="border-2 border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-white px-10 py-6 text-xl"
               onClick={() => setActiveTab('contacts')}
             >
-              <Icon name="Phone" size={24} className="mr-3 group-hover:rotate-12 transition-transform" />
-              📞 Связаться с нами
+              <Icon name="Phone" size={20} className="mr-3" />
+              Связаться с нами
             </Button>
           </div>
         </div>
-        
-        {/* SCROLLING INDICATOR */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <Icon name="ChevronDown" size={32} className="text-blue-400" />
-        </div>
       </section>
 
-      {/* Main Content - С ПАРАЛЛАКСОМ */}
-      <div 
-        className="max-w-7xl mx-auto px-6 py-20"
-        style={{
-          transform: `translateY(${scrollY * 0.1}px)`
-        }}
-      >
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-6 py-20">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-12 bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-md border border-slate-600 p-2 rounded-2xl">
-            {[
-              { value: 'catalog', label: '📦 Каталог' },
-              { value: 'projects', label: '🏗️ Проекты' },
-              { value: 'info', label: '🏭 О заводе' },
-              { value: 'contacts', label: '📞 Контакты' }
-            ].map((tab) => (
-              <TabsTrigger 
-                key={tab.value}
-                value={tab.value} 
-                className="text-lg text-white data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-cyan-500 data-[state=active]:text-white transition-all duration-300 hover:scale-105 rounded-xl font-semibold"
-              >
-                {tab.label}
-              </TabsTrigger>
-            ))}
+          {/* ИСПРАВЛЕННЫЕ ТАБЫ КАК НА СКРИНЕ */}
+          <TabsList className="grid w-full grid-cols-4 mb-12 bg-gray-500/20 rounded-full p-1 h-14">
+            <TabsTrigger 
+              value="catalog" 
+              className="rounded-full text-white data-[state=active]:bg-blue-500 data-[state=active]:text-white font-medium text-lg h-12"
+            >
+              📦 Каталог
+            </TabsTrigger>
+            <TabsTrigger 
+              value="projects" 
+              className="rounded-full text-white data-[state=active]:bg-orange-500 data-[state=active]:text-white font-medium text-lg h-12"
+            >
+              🏗️ Проекты
+            </TabsTrigger>
+            <TabsTrigger 
+              value="info" 
+              className="rounded-full text-white data-[state=active]:bg-red-500 data-[state=active]:text-white font-medium text-lg h-12"
+            >
+              🏭 О заводе
+            </TabsTrigger>
+            <TabsTrigger 
+              value="contacts" 
+              className="rounded-full text-white data-[state=active]:bg-gray-600 data-[state=active]:text-white font-medium text-lg h-12"
+            >
+              📞 Контакты
+            </TabsTrigger>
           </TabsList>
 
-          {/* Catalog Tab - ОХУЕННЫЕ КАРТОЧКИ С 3D ЭФФЕКТАМИ */}
-          <TabsContent value="catalog" className="space-y-8 animate-fade-in">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-black mb-6 bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent">
-                🔥 Продукция
+          {/* КАТАЛОГ - КАК НА СКРИНЕ */}
+          <TabsContent value="catalog" className="space-y-8">
+            <div className="text-center mb-12">
+              <h2 className="text-5xl font-bold mb-6 text-white flex items-center justify-center">
+                <Icon name="Package" size={48} className="mr-4 text-blue-500" />
+                Продукция
               </h2>
-              <p className="text-2xl text-gray-300 font-medium">Полный спектр зарядного оборудования для электротранспорта</p>
+              <p className="text-xl text-gray-300">Полный спектр зарядного оборудования для электротранспорта</p>
             </div>
             
-            <div className="space-y-16">
+            <div className="space-y-8">
               {products.map((product, index) => (
                 <Card 
                   key={product.id} 
-                  className="group bg-gradient-to-br from-slate-800/40 via-slate-700/40 to-slate-800/40 backdrop-blur-xl border border-slate-600/50 hover:border-blue-500/80 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-blue-500/20 rounded-3xl overflow-hidden"
+                  className="bg-gray-400/20 backdrop-blur-sm border-gray-500/30 rounded-3xl overflow-hidden"
                 >
-                  <div className={`grid md:grid-cols-2 gap-12 p-10 ${index % 2 !== 0 ? 'md:grid-cols-2' : ''}`}>
-                    {/* Изображение с HOVER 3D ЭФФЕКТОМ */}
-                    <div className={`relative ${index % 2 !== 0 ? 'order-2 md:order-1' : 'order-1'}`}>
-                      <div className="relative overflow-hidden rounded-2xl group-hover:scale-105 transition-transform duration-500">
+                  <div className="grid md:grid-cols-2 gap-0">
+                    {/* ИЗОБРАЖЕНИЕ */}
+                    <div className="p-8">
+                      <div className="relative rounded-2xl overflow-hidden h-80">
                         <img 
                           src={product.image} 
                           alt={product.name}
-                          className="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110"
+                          className="w-full h-full object-cover"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-blue-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        
-                        {/* НЕОНОВАЯ РАМКА */}
-                        <div className="absolute inset-0 border-2 border-transparent group-hover:border-blue-400 transition-colors duration-500 rounded-2xl opacity-0 group-hover:opacity-100" 
-                             style={{ boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)' }} />
                       </div>
                     </div>
                     
-                    {/* Контент с АНИМАЦИЯМИ */}
-                    <div className={`flex flex-col justify-center space-y-6 ${index % 2 !== 0 ? 'order-1 md:order-2' : 'order-2'}`}>
-                      <CardHeader className="p-0">
-                        <CardTitle className="text-4xl font-black text-white mb-3 group-hover:text-blue-300 transition-colors duration-300">
-                          {product.name}
-                        </CardTitle>
-                        <CardDescription className="text-xl text-gray-300 font-semibold">
-                          ⚡ {product.type} • {product.power}
-                        </CardDescription>
-                      </CardHeader>
-                      
-                      <CardContent className="p-0 space-y-6">
-                        {/* ТЕХНИЧЕСКИЕ ХАРАКТЕРИСТИКИ С ПРОГРЕСС-БАРАМИ */}
-                        <div className="space-y-4">
-                          <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-400">Мощность</span>
-                              <span className="text-blue-400 font-bold">{product.powerProgress}%</span>
-                            </div>
-                            <Progress value={product.powerProgress} className="h-3 bg-slate-700" />
+                    {/* КОНТЕНТ - ЧИТАЕМЫЙ */}
+                    <div className="p-8 flex flex-col justify-center">
+                      <div className="mb-6">
+                        <h3 className="text-3xl font-bold text-white mb-2">{product.name}</h3>
+                        <p className="text-lg text-gray-300 flex items-center">
+                          <Icon name="Zap" size={20} className="mr-2 text-yellow-500" />
+                          {product.type} • {product.power}
+                        </p>
+                      </div>
+
+                      {/* ПРОГРЕСС-БАРЫ КАК НА СКРИНЕ */}
+                      <div className="space-y-4 mb-6">
+                        <div>
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-gray-400">Мощность</span>
+                            <span className="text-blue-400 font-bold">{product.powerProgress}%</span>
                           </div>
-                          
-                          <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-400">Скорость зарядки</span>
-                              <span className="text-cyan-400 font-bold">{product.speedProgress}%</span>
-                            </div>
-                            <Progress value={product.speedProgress} className="h-3 bg-slate-700" />
-                          </div>
-                          
-                          <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-400">Надежность</span>
-                              <span className="text-green-400 font-bold">{product.reliabilityProgress}%</span>
-                            </div>
-                            <Progress value={product.reliabilityProgress} className="h-3 bg-slate-700" />
+                          <div className="w-full bg-gray-600 rounded-full h-3">
+                            <div 
+                              className="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all duration-1000"
+                              style={{ width: `${product.powerProgress}%` }}
+                            />
                           </div>
                         </div>
-
-                        {/* ОСНОВНЫЕ ХАРАКТЕРИСТИКИ */}
-                        <div className="space-y-4">
-                          <div className="flex justify-between items-center border-b border-slate-600/50 pb-3">
-                            <span className="text-gray-400 text-lg">🔌 Разъемы:</span>
-                            <span className="text-white font-bold">{product.connectors}</span>
+                        
+                        <div>
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-gray-400">Скорость зарядки</span>
+                            <span className="text-cyan-400 font-bold">{product.speedProgress}%</span>
                           </div>
-                          <div className="flex justify-between items-center border-b border-slate-600/50 pb-3">
-                            <span className="text-gray-400 text-lg">🛡️ Гарантия:</span>
-                            <Badge className="bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold px-3 py-1">
-                              {product.warranty}
-                            </Badge>
-                          </div>
-                          <div className="flex justify-between items-start border-b border-slate-600/50 pb-3">
-                            <span className="text-gray-400 text-lg">📜 Сертификация:</span>
-                            <span className="text-blue-400 text-right max-w-48 font-semibold">{product.certification}</span>
+                          <div className="w-full bg-gray-600 rounded-full h-3">
+                            <div 
+                              className="bg-gradient-to-r from-cyan-500 to-cyan-600 h-3 rounded-full transition-all duration-1000"
+                              style={{ width: `${product.speedProgress}%` }}
+                            />
                           </div>
                         </div>
+                        
+                        <div>
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-gray-400">Надежность</span>
+                            <span className="text-emerald-400 font-bold">{product.reliabilityProgress}%</span>
+                          </div>
+                          <div className="w-full bg-gray-600 rounded-full h-3">
+                            <div 
+                              className="bg-gradient-to-r from-emerald-500 to-emerald-600 h-3 rounded-full transition-all duration-1000"
+                              style={{ width: `${product.reliabilityProgress}%` }}
+                            />
+                          </div>
+                        </div>
+                      </div>
 
-                        <div className="flex justify-between items-center pt-4">
-                          <span className="text-4xl font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                            {product.price}
+                      {/* ХАРАКТЕРИСТИКИ */}
+                      <div className="space-y-3 mb-6">
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-400 flex items-center">
+                            <Icon name="Plug" size={16} className="mr-2" />
+                            Разъемы:
                           </span>
-                          <Button 
-                            size="lg" 
-                            className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 border-0"
-                          >
-                            🛒 Заказать
-                          </Button>
+                          <span className="text-white font-medium">{product.connectors}</span>
                         </div>
-                      </CardContent>
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-400 flex items-center">
+                            <Icon name="Shield" size={16} className="mr-2" />
+                            Гарантия:
+                          </span>
+                          <Badge className="bg-emerald-600 text-white">{product.warranty}</Badge>
+                        </div>
+                        <div className="flex justify-between items-start">
+                          <span className="text-gray-400 flex items-center">
+                            <Icon name="Award" size={16} className="mr-2" />
+                            Сертификация:
+                          </span>
+                          <span className="text-blue-400 text-right text-sm">{product.certification}</span>
+                        </div>
+                      </div>
+
+                      {/* ЦЕНА И КНОПКА КАК НА СКРИНЕ */}
+                      <div className="flex justify-between items-center">
+                        <span className="text-3xl font-bold text-cyan-400">
+                          {product.price}
+                        </span>
+                        <Button 
+                          size="lg" 
+                          className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-xl"
+                        >
+                          Заказать
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </Card>
@@ -417,211 +355,156 @@ export default function Index() {
             </div>
           </TabsContent>
 
-          {/* Projects Tab - С АНИМИРОВАННЫМИ СЧЕТЧИКАМИ */}
-          <TabsContent value="projects" className="space-y-8 animate-fade-in">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-black mb-6 bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent">
-                🏗️ Реализованные проекты
-              </h2>
-              <p className="text-2xl text-gray-300 font-medium">
+          {/* ОСТАЛЬНЫЕ ТАБЫ УПРОЩЕННЫЕ */}
+          <TabsContent value="projects" className="space-y-8">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold mb-4 text-white">Реализованные проекты</h2>
+              <p className="text-xl text-gray-300">
                 Более <AnimatedCounter end={200} suffix="+" /> объектов по всей России
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {projects.map((project, index) => (
-                <Card 
-                  key={index} 
-                  className="group bg-gradient-to-br from-slate-800/40 to-slate-700/40 backdrop-blur-xl border border-slate-600/50 hover:border-blue-500/80 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20 rounded-2xl"
-                >
-                  <CardHeader>
-                    <CardTitle className="text-2xl text-white flex items-center group-hover:text-blue-300 transition-colors">
-                      <Icon name="MapPin" size={24} className="mr-3 text-blue-400 group-hover:scale-125 transition-transform" />
+                <Card key={index} className="bg-gray-400/20 backdrop-blur-sm border-gray-500/30 rounded-2xl p-6">
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-bold text-white flex items-center">
+                      <Icon name="MapPin" size={20} className="mr-2 text-emerald-400" />
                       {project.name}
-                    </CardTitle>
-                    <CardDescription className="text-gray-300 text-lg font-semibold">📍 {project.location}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-400 text-lg">⚡ Станций:</span>
-                        <Badge className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-lg px-3 py-1">
-                          <AnimatedCounter end={project.stations} />
-                        </Badge>
+                    </h3>
+                    <p className="text-gray-300">{project.location}</p>
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Станций:</span>
+                        <Badge className="bg-emerald-600">{project.stations}</Badge>
                       </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-400 text-lg">🔋 Мощность:</span>
-                        <span className="text-white font-bold text-lg">{project.power}</span>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Мощность:</span>
+                        <span className="text-white">{project.power}</span>
                       </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-400 text-lg">✅ Завершен:</span>
-                        <span className="text-blue-400 font-bold text-lg">{project.completed}</span>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Завершен:</span>
+                        <span className="text-emerald-400">{project.completed}</span>
                       </div>
                     </div>
-                  </CardContent>
+                  </div>
                 </Card>
               ))}
             </div>
           </TabsContent>
 
-          {/* Info Tab - С АНИМИРОВАННЫМИ СТАТИСТИКАМИ */}
-          <TabsContent value="info" className="space-y-8 animate-fade-in">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-black mb-6 bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent">
-                🏭 О заводе EcoCharge
-              </h2>
+          {/* О ЗАВОДЕ */}
+          <TabsContent value="info" className="space-y-8">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold mb-4 text-white">О заводе EcoCharge</h2>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-16 items-center mb-16">
-              <div className="relative group">
-                <div className="relative overflow-hidden rounded-3xl">
-                  <img 
-                    src="/img/e399ca81-72e7-4bd0-8841-a9000e867945.jpg" 
-                    alt="Завод EcoCharge"
-                    className="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-blue-600/40 to-transparent" />
-                </div>
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-blue-400 transition-colors duration-500 rounded-3xl" 
-                     style={{ boxShadow: '0 0 30px rgba(59, 130, 246, 0.3)' }} />
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <img 
+                  src="/img/e399ca81-72e7-4bd0-8841-a9000e867945.jpg" 
+                  alt="Завод EcoCharge"
+                  className="w-full h-64 object-cover rounded-2xl"
+                />
               </div>
-              
-              <div className="space-y-8">
-                <h3 className="text-3xl font-black text-white">🚀 Лидер в производстве зарядной инфраструктуры</h3>
-                <p className="text-gray-300 text-xl leading-relaxed font-medium">
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold text-white">Лидер в производстве зарядной инфраструктуры</h3>
+                <p className="text-gray-300 text-lg leading-relaxed">
                   Завод EcoCharge — современное высокотехнологичное предприятие, 
                   специализирующееся на разработке и производстве зарядных станций 
-                  для электромобилей. Мы используем передовые технологии и строгие 
-                  стандарты качества.
+                  для электромобилей.
                 </p>
-                
-                {/* АНИМИРОВАННАЯ СТАТИСТИКА */}
-                <div className="grid grid-cols-2 gap-8">
-                  <div className="text-center p-6 bg-gradient-to-br from-blue-600/20 to-cyan-500/20 rounded-2xl backdrop-blur-sm border border-blue-500/30">
-                    <div className="text-5xl font-black bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="text-center p-4 bg-emerald-600/20 rounded-xl">
+                    <div className="text-3xl font-bold text-emerald-400">
                       <AnimatedCounter end={200} suffix="+" />
                     </div>
-                    <div className="text-gray-300 text-lg font-semibold">Проектов</div>
+                    <div className="text-gray-300">Проектов</div>
                   </div>
-                  <div className="text-center p-6 bg-gradient-to-br from-cyan-600/20 to-blue-500/20 rounded-2xl backdrop-blur-sm border border-cyan-500/30">
-                    <div className="text-5xl font-black bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent">
+                  <div className="text-center p-4 bg-blue-600/20 rounded-xl">
+                    <div className="text-3xl font-bold text-blue-400">
                       <AnimatedCounter end={5000} suffix="+" />
                     </div>
-                    <div className="text-gray-300 text-lg font-semibold">Станций</div>
+                    <div className="text-gray-300">Станций</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* КАРТОЧКА ГАРАНТИИ СО СТЕКЛЯННЫМ ЭФФЕКТОМ */}
-            <Card className="bg-gradient-to-br from-slate-800/40 via-slate-700/40 to-slate-800/40 backdrop-blur-xl border border-slate-600/50 rounded-3xl overflow-hidden">
-              <CardHeader>
-                <CardTitle className="text-3xl font-black text-center bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent">
-                  🛡️ Гарантия и сертификация
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-2 gap-12">
-                  <div className="space-y-6">
-                    <h4 className="text-2xl font-bold text-blue-400 mb-6">✅ Гарантийные обязательства</h4>
-                    <div className="space-y-4">
-                      {[
-                        'Расширенная гарантия до 7 лет',
-                        'Техническая поддержка 24/7',
-                        'Бесплатное сервисное обслуживание',
-                        'Замена оборудования в течение 48 часов'
-                      ].map((item, idx) => (
-                        <div key={idx} className="flex items-center space-x-3 text-gray-300 text-lg">
-                          <div className="w-2 h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full animate-pulse" />
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-6">
-                    <h4 className="text-2xl font-bold text-cyan-400 mb-6">📜 Сертификация</h4>
-                    <div className="space-y-4">
-                      {[
-                        'CE (Европейское соответствие)',
-                        'ISO 9001:2015 (Система качества)',
-                        'IEC 61851 (Международный стандарт)',
-                        'RoHS (Экологическая безопасность)'
-                      ].map((item, idx) => (
-                        <div key={idx} className="flex items-center space-x-3 text-gray-300 text-lg">
-                          <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full animate-pulse" />
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+            <Card className="bg-gray-400/20 backdrop-blur-sm border-gray-500/30 rounded-2xl p-8">
+              <h3 className="text-2xl font-bold text-center text-white mb-8">Гарантия и сертификация</h3>
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h4 className="text-xl font-bold text-emerald-400 mb-4">Гарантийные обязательства</h4>
+                  <ul className="space-y-2 text-gray-300">
+                    <li>• Расширенная гарантия до 7 лет</li>
+                    <li>• Техническая поддержка 24/7</li>
+                    <li>• Бесплатное сервисное обслуживание</li>
+                    <li>• Замена оборудования в течение 48 часов</li>
+                  </ul>
                 </div>
-              </CardContent>
+                <div>
+                  <h4 className="text-xl font-bold text-blue-400 mb-4">Сертификация</h4>
+                  <ul className="space-y-2 text-gray-300">
+                    <li>• CE (Европейское соответствие)</li>
+                    <li>• ISO 9001:2015 (Система качества)</li>
+                    <li>• IEC 61851 (Международный стандарт)</li>
+                    <li>• RoHS (Экологическая безопасность)</li>
+                  </ul>
+                </div>
+              </div>
             </Card>
           </TabsContent>
 
-          {/* Contacts Tab - СТЕКЛЯННЫЕ КАРТОЧКИ */}
-          <TabsContent value="contacts" className="space-y-8 animate-fade-in">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-black mb-6 bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent">
-                📞 Контакты
-              </h2>
-              <p className="text-2xl text-gray-300 font-medium">Свяжитесь с нами для консультации и расчета стоимости</p>
+          {/* КОНТАКТЫ */}
+          <TabsContent value="contacts" className="space-y-8">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold mb-4 text-white">Контакты</h2>
+              <p className="text-xl text-gray-300">Свяжитесь с нами для консультации и расчета стоимости</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              {[
-                { icon: "Phone", title: "📞 Телефон", lines: ["+7 (495) 123-45-67", "+7 (800) 555-01-23"] },
-                { icon: "Mail", title: "✉️ Email", lines: ["info@ecocharge.ru", "sales@ecocharge.ru"] },
-                { icon: "MapPin", title: "📍 Адрес", lines: ["г. Москва, ул. Инновационная, 42", "Технопарк \"Будущее\""] }
-              ].map((contact, index) => (
-                <Card key={index} className="group bg-gradient-to-br from-slate-800/40 to-slate-700/40 backdrop-blur-xl border border-slate-600/50 hover:border-blue-500/80 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20 rounded-2xl">
-                  <CardContent className="pt-8 text-center">
-                    <Icon name={contact.icon} size={56} className="mx-auto mb-6 text-blue-400 group-hover:scale-125 group-hover:text-cyan-300 transition-all duration-300" />
-                    <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-blue-300 transition-colors">
-                      {contact.title}
-                    </h3>
-                    <div className="space-y-2">
-                      {contact.lines.map((line, idx) => (
-                        <p key={idx} className="text-gray-300 text-lg font-medium">{line}</p>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="grid md:grid-cols-3 gap-6">
+              <Card className="bg-gray-400/20 backdrop-blur-sm border-gray-500/30 rounded-2xl p-6 text-center">
+                <Icon name="Phone" size={48} className="mx-auto mb-4 text-emerald-400" />
+                <h3 className="text-xl font-bold mb-2 text-white">Телефон</h3>
+                <p className="text-gray-300">+7 (495) 123-45-67</p>
+                <p className="text-gray-300">+7 (800) 555-01-23</p>
+              </Card>
+
+              <Card className="bg-gray-400/20 backdrop-blur-sm border-gray-500/30 rounded-2xl p-6 text-center">
+                <Icon name="Mail" size={48} className="mx-auto mb-4 text-blue-400" />
+                <h3 className="text-xl font-bold mb-2 text-white">Email</h3>
+                <p className="text-gray-300">info@ecocharge.ru</p>
+                <p className="text-gray-300">sales@ecocharge.ru</p>
+              </Card>
+
+              <Card className="bg-gray-400/20 backdrop-blur-sm border-gray-500/30 rounded-2xl p-6 text-center">
+                <Icon name="MapPin" size={48} className="mx-auto mb-4 text-red-400" />
+                <h3 className="text-xl font-bold mb-2 text-white">Адрес</h3>
+                <p className="text-gray-300">г. Москва, ул. Инновационная, 42</p>
+                <p className="text-gray-300">Технопарк "Будущее"</p>
+              </Card>
             </div>
 
-            {/* ФОРМА КОНСУЛЬТАЦИИ */}
-            <Card className="bg-gradient-to-br from-slate-800/40 via-slate-700/40 to-slate-800/40 backdrop-blur-xl border border-slate-600/50 rounded-3xl overflow-hidden">
-              <CardHeader>
-                <CardTitle className="text-3xl font-black text-center bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent">
-                  🚀 Заявка на консультацию
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center space-y-6">
-                  <p className="text-xl text-gray-300 font-medium">
-                    Оставьте заявку, и наш менеджер свяжется с вами в течение часа
-                  </p>
-                  <Button 
-                    size="lg" 
-                    className="group bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-700 hover:from-blue-700 hover:via-cyan-400 hover:to-blue-800 text-white font-bold px-12 py-6 text-xl shadow-2xl shadow-blue-500/40 hover:shadow-blue-400/60 transition-all duration-300 hover:scale-110 border-0"
-                  >
-                    <Icon name="Send" size={24} className="mr-3 group-hover:translate-x-1 transition-transform" />
-                    📨 Получить консультацию
-                  </Button>
-                </div>
-              </CardContent>
+            <Card className="bg-gray-400/20 backdrop-blur-sm border-gray-500/30 rounded-2xl p-8 text-center">
+              <h3 className="text-2xl font-bold text-white mb-4">Заявка на консультацию</h3>
+              <p className="text-gray-300 mb-6">
+                Оставьте заявку, и наш менеджер свяжется с вами в течение часа
+              </p>
+              <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-4">
+                <Icon name="Send" size={20} className="mr-2" />
+                Получить консультацию
+              </Button>
             </Card>
           </TabsContent>
         </Tabs>
       </div>
 
-      {/* Footer - СТЕКЛЯННЫЙ */}
-      <footer className="bg-gradient-to-r from-slate-900/50 via-slate-800/50 to-slate-900/50 backdrop-blur-md border-t border-slate-700 py-12">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-gray-400 text-lg">&copy; 2024 EcoCharge. Все права защищены.</p>
-          <p className="mt-3 text-gray-500 font-semibold">🏭 Завод производителя зарядных станций для электромобилей ⚡</p>
+      {/* Footer */}
+      <footer className="bg-black/40 border-t border-gray-600 py-8">
+        <div className="max-w-7xl mx-auto px-6 text-center text-gray-400">
+          <p>&copy; 2024 EcoCharge. Все права защищены.</p>
+          <p className="mt-2">Завод производителя зарядных станций для электромобилей</p>
         </div>
       </footer>
     </div>
